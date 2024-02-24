@@ -1,0 +1,16 @@
+{
+  "name": "leetcode-twitter-post",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node --no-deprecation src/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jimp": "^0.22.12",
+    "open": "^10.0.3"
+  }
+}
