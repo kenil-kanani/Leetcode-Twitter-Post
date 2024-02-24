@@ -2,6 +2,9 @@
 
 This project enables you to easily create prefilled tweet links to share your LeetCode progress and achievements on Twitter. Along with it will create a iamge, of your today's progress and achievements.
 
+### Generated Image
+<img  src="./assets/leetcode-2-24-2024-.png"/>
+
 ### Setup
 
 1. Clone the repository
