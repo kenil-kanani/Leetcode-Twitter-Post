@@ -115,7 +115,6 @@ let leetcode = async () => {
         'Referer': 'https://leetcode.com'
       },
       body: JSON.stringify({ query: query, variables: { username } }),
-
     })
 
     result = await result.json();
@@ -134,7 +133,6 @@ let leetcode = async () => {
       tweetText += "\n"
       tweetText += "💻💡 Each problem conquered feels like a victory, fueling my passion for coding. 💪 \n\n #LeetCode #DSA"
       await generateAndTweetImage(formatedData)
-      // console.log(await generateTwitterShareUrl(tweetText))
       open(await generateTwitterShareUrl(tweetText), { app: '/Applications/Safari.app' })
     }
   } catch (error) {
