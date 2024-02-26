@@ -26,7 +26,10 @@ async function generateAndTweetImage(data) {
         backgroundImage.print(font, 745, backgroundImage.getHeight() - 150, data.mediumSolved + " / " + data.totalMedium);
         backgroundImage.print(font, 1060, backgroundImage.getHeight() - 150, data.hardSolved + " / " + data.totalHard);
         const imageName = "leetcode-" + new Date().toLocaleDateString().replace(/\//g, '-') + '.png'
+        // If you are using locally it will be saved on the Desktop
         const desktopPath = path.join(os.homedir(), 'Desktop', imageName);
+        // If you are using Virtually it will be saved on the asset folder
+        // const desktopPath = path.join('./assets', imageName);
         await backgroundImage.writeAsync(desktopPath);
     } catch (error) {
         console.error(error);
