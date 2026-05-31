@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
+    "generate:sample": "node scripts/generateSample.js",
     "start": "node --no-deprecation src/index.js",
     "test": "node --test"
   },
