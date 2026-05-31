@@ -1,14 +1,35 @@
 {
   "name": "leetcode-twitter-post",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Generate a LeetCode progress card and open a prefilled X/Twitter share link from the command line.",
+  "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "start": "node --no-deprecation src/index.js"
+    "generate:sample": "node scripts/generateSample.js",
+    "start": "node --no-deprecation src/index.js",
+    "test": "node --test"
   },
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "leetcode",
+    "twitter",
+    "x",
+    "automation",
+    "jimp",
+    "cli"
+  ],
+  "author": "Kenil Kanani",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kenil-kanani/Leetcode-Twitter-Post.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kenil-kanani/Leetcode-Twitter-Post/issues"
+  },
+  "homepage": "https://github.com/kenil-kanani/Leetcode-Twitter-Post#readme",
+  "engines": {
+    "node": ">=18"
+  },
   "dependencies": {
     "jimp": "^0.22.12",
     "open": "^10.0.3"
