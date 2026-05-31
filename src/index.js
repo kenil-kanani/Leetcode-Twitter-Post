@@ -1,64 +1,8 @@
 import generateAndTweetImage from './generateImage.js';
 import { fromUnixSeconds, toCalendarDateKey } from './date.js';
+import leetcodeQuery from './leetcodeQuery.js';
 import { composeTweetText, generateTwitterShareUrl } from './tweetPost.js';
 import open from 'open';
-
-//graphql query
-let query = `
-  query getUserProfile($username: String!) {
-    allQuestionsCount {
-      difficulty
-      count
-    }
-    matchedUser(username: $username) {
-      contributions {
-        points
-      }
-      profile {
-        reputation
-        ranking
-      }
-      submissionCalendar
-      submitStats {
-        acSubmissionNum {
-          difficulty
-          count
-          submissions
-        }
-        totalSubmissionNum {
-          difficulty
-          count
-          submissions
-        }
-      }
-    }
-    recentSubmissionList(username: $username) {
-      title
-      titleSlug
-      timestamp
-      statusDisplay
-      lang
-      __typename
-    }
-    matchedUserStats: matchedUser(username: $username) {
-      submitStats: submitStatsGlobal {
-        acSubmissionNum {
-          difficulty
-          count
-          submissions
-          __typename
-        }
-        totalSubmissionNum {
-          difficulty
-          count
-          submissions
-          __typename
-        }
-        __typename
-      }
-    }
-  }
-`;
 
 // format data 
 let formatData = (data, username) => {
@@ -115,7 +59,7 @@ let leetcode = async () => {
         'Content-Type': 'application/json',
         'Referer': 'https://leetcode.com'
       },
-      body: JSON.stringify({ query: query, variables: { username } }),
+      body: JSON.stringify({ query: leetcodeQuery, variables: { username } }),
     })
 
     result = await result.json();
