@@ -12,9 +12,9 @@ function buildQuestionList(submissions) {
     .join('\n');
 }
 
-export function composeTweetText(submissions) {
+export function composeTweetText(submissions, date = new Date()) {
   return [
-    `${formatDisplayDate()}'s Progress`,
+    `${formatDisplayDate(date)}'s Progress`,
     '',
     buildQuestionList(submissions),
     '',

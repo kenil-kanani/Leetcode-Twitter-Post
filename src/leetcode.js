@@ -5,14 +5,14 @@ function getDifficultyCount(entries, difficulty) {
   return entries.find((entry) => entry.difficulty === difficulty)?.count ?? 0;
 }
 
-export function filterTodaysAcceptedSubmissions(submissions) {
-  const today = toCalendarDateKey();
+export function filterTodaysAcceptedSubmissions(submissions, today = new Date()) {
+  const todayKey = toCalendarDateKey(today);
   const seenTitles = new Set();
 
   return submissions.filter((submission) => {
     const date = toCalendarDateKey(fromUnixSeconds(submission.timestamp));
     const isAcceptedToday =
-      date === today && submission.statusDisplay === 'Accepted';
+      date === todayKey && submission.statusDisplay === 'Accepted';
 
     if (!isAcceptedToday || seenTitles.has(submission.titleSlug)) {
       return false;
@@ -23,7 +23,7 @@ export function filterTodaysAcceptedSubmissions(submissions) {
   });
 }
 
-export function formatLeetCodeData(data, username) {
+export function formatLeetCodeData(data, username, today = new Date()) {
   const acceptedCounts = data.matchedUser.submitStats.acSubmissionNum;
   const allQuestions = data.allQuestionsCount;
 
@@ -36,7 +36,10 @@ export function formatLeetCodeData(data, username) {
     totalHard: getDifficultyCount(allQuestions, 'Hard'),
     ranking: data.matchedUser.profile.ranking,
     username,
-    recentSubmissions: filterTodaysAcceptedSubmissions(data.recentSubmissionList),
+    recentSubmissions: filterTodaysAcceptedSubmissions(
+      data.recentSubmissionList,
+      today
+    ),
   };
 }
 
