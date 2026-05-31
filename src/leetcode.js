@@ -53,5 +53,26 @@ export async function fetchLeetCodeData(username) {
     }),
   });
 
-  return response.json();
+  if (!response.ok) {
+    throw new Error(
+      `LeetCode request failed with status ${response.status} ${response.statusText}.`
+    );
+  }
+
+  const payload = await response.json();
+  const errorMessage = payload.errors?.map((error) => error.message).join('; ');
+
+  if (errorMessage) {
+    throw new Error(`LeetCode API error: ${errorMessage}`);
+  }
+
+  if (!payload.data?.matchedUser) {
+    throw new Error(`No LeetCode profile found for "${username}".`);
+  }
+
+  if (!payload.data.allQuestionsCount || !payload.data.recentSubmissionList) {
+    throw new Error('LeetCode returned an incomplete profile response.');
+  }
+
+  return payload.data;
 }

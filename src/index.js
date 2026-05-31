@@ -16,16 +16,12 @@ let leetcode = async () => {
 
     const { username } = cliOptions;
 
-    let result = await fetchLeetCodeData(username);
+    const leetCodeData = await fetchLeetCodeData(username);
+    const formatedData = formatLeetCodeData(leetCodeData, username);
+    const tweetText = composeTweetText(formatedData.recentSubmissions);
 
-    if (result.errors) {
-      console.log("Error")
-    } else {
-      let formatedData = formatLeetCodeData(result.data, username);
-      const tweetText = composeTweetText(formatedData.recentSubmissions);
-      await generateAndTweetImage(formatedData)
-      open(generateTwitterShareUrl(tweetText), { app: '/Applications/Safari.app' })
-    }
+    await generateAndTweetImage(formatedData);
+    open(generateTwitterShareUrl(tweetText), { app: '/Applications/Safari.app' });
   } catch (error) {
     console.error(error.message);
     console.error('');
