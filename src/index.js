@@ -14,13 +14,14 @@ let leetcode = async () => {
       return;
     }
 
-    const { username } = cliOptions;
+    const { outputDir, username } = cliOptions;
 
     const leetCodeData = await fetchLeetCodeData(username);
     const formatedData = formatLeetCodeData(leetCodeData, username);
     const tweetText = composeTweetText(formatedData.recentSubmissions);
 
-    await generateAndTweetImage(formatedData);
+    const outputPath = await generateAndTweetImage(formatedData, { outputDir });
+    console.log(`Saved image to ${outputPath}`);
     open(generateTwitterShareUrl(tweetText), { app: '/Applications/Safari.app' });
   } catch (error) {
     console.error(error.message);
