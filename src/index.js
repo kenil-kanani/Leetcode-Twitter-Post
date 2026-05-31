@@ -1,6 +1,6 @@
 import generateAndTweetImage from './generateImage.js';
-import { formatDisplayDate, fromUnixSeconds, toCalendarDateKey } from './date.js';
-import { generateTwitterShareUrl } from './tweetPost.js';
+import { fromUnixSeconds, toCalendarDateKey } from './date.js';
+import { composeTweetText, generateTwitterShareUrl } from './tweetPost.js';
 import open from 'open';
 
 //graphql query
@@ -124,17 +124,9 @@ let leetcode = async () => {
       console.log("Error")
     } else {
       let formatedData = formatData(result.data, username);
-
-      let questionList = ""
-      formatedData.recentSubmissions.forEach((submission, index) => {
-        questionList += ("✅ " + (index + 1) + " : " + submission.title + "\n")
-      })
-      let tweetText = formatDisplayDate() + "'s Progress : " + "\n\n" + questionList
-
-      tweetText += "\n"
-      tweetText += "💻💡 Each problem conquered feels like a victory, fueling my passion for coding. 💪 \n\n #LeetCode #DSA"
+      const tweetText = composeTweetText(formatedData.recentSubmissions);
       await generateAndTweetImage(formatedData)
-      open(await generateTwitterShareUrl(tweetText), { app: '/Applications/Safari.app' })
+      open(generateTwitterShareUrl(tweetText), { app: '/Applications/Safari.app' })
     }
   } catch (error) {
     console.log(error);
