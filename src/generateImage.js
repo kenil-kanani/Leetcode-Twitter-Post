@@ -25,6 +25,17 @@ async function resolveOutputPath(outputDir) {
     return path.join(directory, `leetcode-${formatFileDate()}.png`);
 }
 
+async function resolveRequestedOutputPath(options) {
+    if (options.outputFilePath) {
+        const outputFilePath = path.resolve(options.outputFilePath);
+
+        await fs.mkdir(path.dirname(outputFilePath), { recursive: true });
+        return outputFilePath;
+    }
+
+    return resolveOutputPath(options.outputDir);
+}
+
 function getCardSubmissionLines(submissions) {
     if (submissions.length === 0) {
         return ['No accepted submissions today.'];
@@ -100,7 +111,7 @@ async function generateAndTweetImage(data, options = {}) {
         backgroundImage.print(font, 445, backgroundImage.getHeight() - 150, `${data.easySolved} / ${data.totalEasy}`);
         backgroundImage.print(font, 745, backgroundImage.getHeight() - 150, `${data.mediumSolved} / ${data.totalMedium}`);
         backgroundImage.print(font, 1060, backgroundImage.getHeight() - 150, `${data.hardSolved} / ${data.totalHard}`);
-        const outputPath = await resolveOutputPath(options.outputDir);
+        const outputPath = await resolveRequestedOutputPath(options);
 
         await backgroundImage.writeAsync(outputPath);
         return outputPath;
