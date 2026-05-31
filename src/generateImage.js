@@ -1,6 +1,7 @@
 import Jimp from 'jimp';
 import path from 'path';
 import os from 'os';
+import { formatDisplayDate, formatFileDate } from './date.js';
 
 async function generateAndTweetImage(data) {
     try {
@@ -18,14 +19,20 @@ async function generateAndTweetImage(data) {
             backgroundImage.print(font, 200, 350, "No recent accepted submissions");
         }
 
-        backgroundImage.print(font, backgroundImage.getWidth() - (Jimp.measureText(font, new Date().toLocaleDateString())) - 260, 270, new Date().toLocaleDateString());
+        const displayDate = formatDisplayDate();
+        backgroundImage.print(
+            font,
+            backgroundImage.getWidth() - Jimp.measureText(font, displayDate) - 260,
+            270,
+            displayDate
+        );
 
         backgroundImage.print(font, 300, 125, ": " + data.ranking)
 
         backgroundImage.print(font, 445, backgroundImage.getHeight() - 150, data.easySolved + " / " + data.totalEasy);
         backgroundImage.print(font, 745, backgroundImage.getHeight() - 150, data.mediumSolved + " / " + data.totalMedium);
         backgroundImage.print(font, 1060, backgroundImage.getHeight() - 150, data.hardSolved + " / " + data.totalHard);
-        const imageName = "leetcode-" + new Date().toLocaleDateString().replace(/\//g, '-') + '.png'
+        const imageName = `leetcode-${formatFileDate()}.png`;
         // If you are using locally it will be saved on the Desktop
         const desktopPath = path.join(os.homedir(), 'Desktop', imageName);
         // If you are using Virtually it will be saved on the asset folder

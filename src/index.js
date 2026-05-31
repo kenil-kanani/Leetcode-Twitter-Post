@@ -1,4 +1,5 @@
 import generateAndTweetImage from './generateImage.js';
+import { formatDisplayDate, fromUnixSeconds, toCalendarDateKey } from './date.js';
 import { generateTwitterShareUrl } from './tweetPost.js';
 import open from 'open';
 
@@ -77,9 +78,9 @@ let formatData = (data, username) => {
 
 const filterData = (data) => {
   // send only todays accepted submissions
-  let today = new Date().toLocaleDateString();
+  const today = toCalendarDateKey();
   let filteredData = data.filter((submission) => {
-    let date = new Date(submission.timestamp * 1000).toLocaleDateString();
+    const date = toCalendarDateKey(fromUnixSeconds(submission.timestamp));
     return date === today && submission.statusDisplay === 'Accepted';
   })
 
@@ -128,7 +129,7 @@ let leetcode = async () => {
       formatedData.recentSubmissions.forEach((submission, index) => {
         questionList += ("✅ " + (index + 1) + " : " + submission.title + "\n")
       })
-      let tweetText = new Date().toLocaleDateString() + "'s Progress : " + "\n\n" + questionList
+      let tweetText = formatDisplayDate() + "'s Progress : " + "\n\n" + questionList
 
       tweetText += "\n"
       tweetText += "💻💡 Each problem conquered feels like a victory, fueling my passion for coding. 💪 \n\n #LeetCode #DSA"
