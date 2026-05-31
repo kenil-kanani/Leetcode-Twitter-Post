@@ -3,11 +3,13 @@ Usage:
   npm start -- <leetcode-username> [options]
 
 Options:
+  --browser <name>     Choose a browser app like chrome, firefox, edge, or default.
+  --no-open            Skip opening the share URL after the image is generated.
   --output-dir <path>  Save the generated image in a custom directory.
   --help, -h           Show usage information.
 
 Example:
-  npm start -- kenilkanani --output-dir ./assets/generated
+  npm start -- kenilkanani --browser chrome --output-dir ./assets/generated
 `.trim();
 
 export function getUsageText() {
@@ -17,6 +19,8 @@ export function getUsageText() {
 export function parseCliArguments(argv) {
   const args = [...argv];
   const options = {
+    browser: '',
+    openBrowser: true,
     outputDir: '',
     showHelp: false,
     username: '',
@@ -38,6 +42,22 @@ export function parseCliArguments(argv) {
       }
 
       options.outputDir = outputDir;
+      continue;
+    }
+
+    if (current === '--browser') {
+      const browser = args.shift();
+
+      if (!browser) {
+        throw new Error('Missing value for --browser.');
+      }
+
+      options.browser = browser;
+      continue;
+    }
+
+    if (current === '--no-open') {
+      options.openBrowser = false;
       continue;
     }
 

@@ -1,8 +1,8 @@
+import { openShareUrl } from './browser.js';
 import { getUsageText, parseCliArguments } from './cli.js';
 import generateAndTweetImage from './generateImage.js';
 import { fetchLeetCodeData, formatLeetCodeData } from './leetcode.js';
 import { composeTweetText, generateTwitterShareUrl } from './tweetPost.js';
-import open from 'open';
 
 //fetching the data
 let leetcode = async () => {
@@ -14,7 +14,7 @@ let leetcode = async () => {
       return;
     }
 
-    const { outputDir, username } = cliOptions;
+    const { browser, openBrowser, outputDir, username } = cliOptions;
 
     const leetCodeData = await fetchLeetCodeData(username);
     const formatedData = formatLeetCodeData(leetCodeData, username);
@@ -22,7 +22,10 @@ let leetcode = async () => {
 
     const outputPath = await generateAndTweetImage(formatedData, { outputDir });
     console.log(`Saved image to ${outputPath}`);
-    open(generateTwitterShareUrl(tweetText), { app: '/Applications/Safari.app' });
+    await openShareUrl(generateTwitterShareUrl(tweetText), {
+      browser,
+      openBrowser,
+    });
   } catch (error) {
     console.error(error.message);
     console.error('');
