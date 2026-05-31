@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "start": "node --no-deprecation src/index.js"
+    "start": "node --no-deprecation src/index.js",
+    "test": "node --test"
   },
   "keywords": [
     "leetcode",
