@@ -1,3 +1,4 @@
+import { getUsageText, parseCliArguments } from './cli.js';
 import generateAndTweetImage from './generateImage.js';
 import { fromUnixSeconds, toCalendarDateKey } from './date.js';
 import leetcodeQuery from './leetcodeQuery.js';
@@ -43,15 +44,14 @@ const filterData = (data) => {
 //fetching the data
 let leetcode = async () => {
   try {
-    const args = process.argv.slice(2);
+    const cliOptions = parseCliArguments(process.argv.slice(2));
 
-    // Check if there are enough arguments
-    if (args.length < 1) {
-      console.error('Usage: node src/index.js <username>');
-      process.exit(1);
+    if (cliOptions.showHelp) {
+      console.log(getUsageText());
+      return;
     }
 
-    const username = args[0];
+    const { username } = cliOptions;
 
     let result = await fetch('https://leetcode.com/graphql', {
       method: 'POST',
@@ -73,7 +73,10 @@ let leetcode = async () => {
       open(generateTwitterShareUrl(tweetText), { app: '/Applications/Safari.app' })
     }
   } catch (error) {
-    console.log(error);
+    console.error(error.message);
+    console.error('');
+    console.error(getUsageText());
+    process.exitCode = 1;
   }
 }
 
